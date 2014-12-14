@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var timer = null;
     var watchID = null;
+    var bgGeo = null;
     var positions = null;
 
     $("#time").hide();
@@ -21,13 +22,60 @@ $(document).ready(function(){
 
         positions = [];
 
-        watchID = navigator.geolocation.watchPosition(function(position) {
-            positions.push({
-                lat : position.coords.latitude,
-                lng : position.coords.longitude
+        
+        if(navigator.plugins.backgroundGeoLocation){
+
+            var onBackgroundSuccess = function(location) {
+                positions.push({
+                    lat : location.latitude,
+                    lng : location.longitude
+                });
+
+                $("#position").text("Position:" + position.coords.latitude + " " + position.coords.longitude);
+            };
+
+            bgGeo = navigator.plugins.backgroundGeoLocation;
+
+            var callbackFn = function(location){
+                console.log("test");
+                onBackgroundSuccess(location);
+            };
+
+            var failureFn = function(error){
+                alert('Geolocation Error');
+            };
+
+            bgGeo.configure(callbackFn, failureFn, {
+                desiredAccuracy: 10,
+                stationaryRadius: 10,
+                distanceFilter: 30,
+                debug: true
             });
-            $("#position").text("Position:" + position.coords.latitude + " " + position.coords.longitude)
-        });
+
+            bgGeo.start();
+        }
+        else if(navigator.geolocation){
+            var onSuccess = function(position) {
+                console.log("test2");
+                positions.push({
+                    lat : position.coords.latitude,
+                    lng : position.coords.longitude
+                });
+                $("#position").text("Position:" + position.coords.latitude + " " + position.coords.longitude)
+            };
+
+            var onFailure = function(){
+
+            };
+
+            var options = {frequency: 3000, enableHighAccuracy: true};
+            watchID = navigator.geolocation.watchPosition(
+                onSuccess,
+                onFailure,
+                options
+            );
+        }
+        
 
         var then = new Date();
 
@@ -55,10 +103,15 @@ $(document).ready(function(){
         if(timer){
             clearInterval(timer);
         }
-
-        if(watchID){
+        
+        if(navigator.plugins.backgroundGeoLocation){
+             bgGeo.stop();
+        }
+        else if(navigator.geolocation){
             navigator.geolocation.clearWatch(watchID);
         }
+       
+
         StorageManager.addTrack(positions);
 
         $("#stop").hide();
