@@ -14,5 +14,7 @@
     <author href="https://" email="martin.grantz@gmail.com">
         Martin Gräntz
     </author>
-    <gap:plugin name="org.transistorsoft.cordova.background-geolocation" version="0.2.0" source="plugins.cordova.io" />
+
+    <gap:plugin name="org.transistorsoft.cordova.background-geolocation" />
+    <gap:plugin name="com.phonegap.plugins.barcodescanner" />
 </widget>
