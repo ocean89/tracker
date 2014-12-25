@@ -39,13 +39,13 @@ $(document).ready(function(){
         };
 
         
-        if(navigator.plugins.backgroundGeoLocation){
+        //if(navigator.plugins.backgroundGeoLocation){
 
             gpslocation = new GPSLocation(onSuccess, onFailure, positions);
-        }
+        /*}
         else{
             gpslocation = new FakeLocation(onSuccess, onFailure, positions);
-        }
+        }*/
         
         gpslocation.start();
 
