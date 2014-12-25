@@ -1,6 +1,10 @@
 function GPSLocation(success, failure, positions){
 
+    console.log(navigator);
+
     this.bgGeo = navigator.plugins.backgroundGeoLocation;
+
+    alert(this.bgGeo);
 
     var callbackFn = function(location){
         success(location, positions);
