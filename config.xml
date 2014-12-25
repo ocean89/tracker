@@ -2,8 +2,8 @@
 <widget xmlns   = "http://www.w3.org/ns/widgets"
     xmlns:gap   = ""
     id          = "com.grantz.tracker"
-    versionCode = "1"
-    version     = "0.0.1" >
+    versionCode = "2"
+    version     = "0.0.2" >
 
     <name>Tracker</name>
 
