@@ -2,20 +2,17 @@
 <widget xmlns   = "http://www.w3.org/ns/widgets"
     xmlns:gap   = ""
     id          = "com.grantz.tracker"
-    versionCode = "2"
-    version     = "0.0.2" >
+    versionCode = "1"
+    version     = "0.0.1" >
 
     <name>Tracker</name>
 
     <description>
-        GPS Tracking app
+        Tracking app
     </description>
 
     <author href="https://" email="martin.grantz@gmail.com">
         Martin Gräntz
     </author>
-
-    <gap:plugin name="org.transistorsoft.cordova.background-geolocation" source="plugins.cordova.io" />
-    <gap:plugin name="com.phonegap.plugins.barcodescanner" source="plugins.cordova.io" />
-
+    <gap:plugin name="org.transistorsoft.cordova.background-geolocation" />
 </widget>
