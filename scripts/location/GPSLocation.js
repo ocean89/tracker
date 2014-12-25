@@ -2,6 +2,10 @@ function GPSLocation(success, failure, positions){
 
     console.log(navigator);
 
+    window.navigator.geolocation.getCurrentPosition(function(location) {
+        console.log('Location from Phonegap');
+    });
+
     this.bgGeo = navigator.plugins.backgroundGeoLocation;
 
     alert(this.bgGeo);
