@@ -40,6 +40,25 @@ var StorageManager = {
             localStorage.setItem("storage", JSON.stringify(storage));
         }
     }
+    ,
+    sync : function(){
+        console.log("sync");
+        if(localStorage){
+            $.ajax( {
+                url :"http://grantz.nu:8080/path",
+                crossDomain : true,
+		type : 'GET',
+                dataType: 'jsonp',
+                success : function( data ) {
+                    console.log(JSON.parse(data));
+                },
+		error:function(data){
+			console.log(data);
+              		alert("something went wrong");
+            	}
+            });
+        }
+    }
 };
 
 StorageManager.init();

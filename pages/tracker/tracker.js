@@ -4,6 +4,8 @@ $(document).ready(function(){
     var bgGeo = null;
     var positions = null;
 
+    var gpslocation = null;
+
     $("#time").hide();
     $("#stop").hide();
     $("#position").hide();
@@ -22,60 +24,30 @@ $(document).ready(function(){
 
         positions = [];
 
+        var onSuccess =  function(location, positions) {
+            console.log(positions);
+            positions.push({
+                lat : location.latitude,
+                lng : location.longitude
+            });
+
+            $("#position").text("Position:" + location.latitude + " " + location.longitude);
+        };
+
+        var onFailure = function(error, context){
+            console.log(error);
+        };
+
         
         if(navigator.plugins.backgroundGeoLocation){
 
-            var onBackgroundSuccess = function(location) {
-                positions.push({
-                    lat : location.latitude,
-                    lng : location.longitude
-                });
-
-                $("#position").text("Position:" + position.coords.latitude + " " + position.coords.longitude);
-            };
-
-            bgGeo = navigator.plugins.backgroundGeoLocation;
-
-            var callbackFn = function(location){
-                console.log("test");
-                onBackgroundSuccess(location);
-            };
-
-            var failureFn = function(error){
-                alert('Geolocation Error');
-            };
-
-            bgGeo.configure(callbackFn, failureFn, {
-                desiredAccuracy: 10,
-                stationaryRadius: 10,
-                distanceFilter: 30,
-                debug: true
-            });
-
-            bgGeo.start();
+            gpslocation = new GPSLocation(onSuccess, onFailure, positions);
         }
-        else if(navigator.geolocation){
-            var onSuccess = function(position) {
-                console.log("test2");
-                positions.push({
-                    lat : position.coords.latitude,
-                    lng : position.coords.longitude
-                });
-                $("#position").text("Position:" + position.coords.latitude + " " + position.coords.longitude)
-            };
-
-            var onFailure = function(){
-
-            };
-
-            var options = {frequency: 3000, enableHighAccuracy: true};
-            watchID = navigator.geolocation.watchPosition(
-                onSuccess,
-                onFailure,
-                options
-            );
+        else{
+            gpslocation = new FakeLocation(onSuccess, onFailure, positions);
         }
         
+        gpslocation.start();
 
         var then = new Date();
 
@@ -98,18 +70,11 @@ $(document).ready(function(){
     });
     $("#stop").click(function(e){
 
+        console.log(positions);
+
         e.preventDefault();
 
-        if(timer){
-            clearInterval(timer);
-        }
-        
-        if(navigator.plugins.backgroundGeoLocation){
-             bgGeo.stop();
-        }
-        else if(navigator.geolocation){
-            navigator.geolocation.clearWatch(watchID);
-        }
+        gpslocation.stop();
        
 
         StorageManager.addTrack(positions);

@@ -2,6 +2,21 @@ body {
     padding: 0;
     margin: 0;
 }
-html, body, #map {
+#map {
     height: 100%;
+}
+
+.sidebar{
+	position: absolute;
+	width: 200px;
+	top:0px;
+	right: 0px;
+	height: 100%;
+	background-color: #000;
+}
+
+.sidebar-content{
+	padding-top: 30px;
+	padding-left: 5px;
+	color: #fff;
 }

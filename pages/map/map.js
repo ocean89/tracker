@@ -43,7 +43,11 @@ Map.prototype.addLayers = function(){
             smoothFactor: 1
         });
 
-        firstpolyline.addTo(map);
+        var line = firstpolyline.addTo(map);
+
+        firstpolyline.on('click', function(e){
+            console.log(e);
+        });
     });
 }
 
